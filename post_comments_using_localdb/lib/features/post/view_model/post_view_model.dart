@@ -61,6 +61,9 @@ class PostViewModel extends ChangeNotifier {
     int index = _posts.indexOf(deletePost);
     await service.databaseDelete(deletePost);
     _posts.removeAt(index);
+    for (var post in _posts) {
+      print('xyz: ${post.title}');
+    }
     notifyListeners();
   }
 }

@@ -19,7 +19,7 @@ class LocalDatabaseService {
   }
 
   Future<List<PostModel>> readAll() async {
-    final res = await db.rawQuery('SELECT * FROM Post');
+    final res = await db.rawQuery('SELECT * FROM Post WHERE deletedAt IS NULL');
     return res.map((map) => PostModel.fromDatabase(map)).toList();
   }
 
@@ -47,7 +47,7 @@ class LocalDatabaseService {
 
   Future<void> databaseDelete(PostModel deleteModel) async {
     await db.update(
-      'User',
+      'Post',
       deleteModel.toDatabaseDelete(),
       where: 'id = ?',
       whereArgs: [deleteModel.id],

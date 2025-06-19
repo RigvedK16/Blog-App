@@ -9,7 +9,6 @@ class LocalDatabase {
   static Future<void> init() async {
     final databasePath = await getDatabasesPath();
     String path = join(databasePath, 'post_comment.db');
-    // await deleteDatabase(path);
     print('Debug Path:$path');
     instance = await openDatabase(
       path,

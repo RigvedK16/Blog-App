@@ -9,7 +9,7 @@ class LocalDatabase {
   static Future<void> init() async {
     final databasePath = await getDatabasesPath();
     String path = join(databasePath, 'post_comment.db');
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
     print('Debug Path:$path');
     instance = await openDatabase(
       path,
@@ -20,6 +20,9 @@ class LocalDatabase {
         );
         await db.execute(
           'CREATE TABLE Post(id INTEGER PRIMARY KEY AUTOINCREMENT,userId INTEGER NOT NULL,title TEXT NOT NULL,description TEXT NOT NULL,createdAt INTEGER NOT NULL,updatedAt INTEGER,deletedAt INTEGER,FOREIGN KEY(userId) REFERENCES User(id))',
+        );
+        await db.execute(
+          'CREATE TABLE Comment(id INTEGER PRIMARY KEY AUTOINCREMENT,userId INTEGER NOT NULL,postId INTEGER NOT NULL,comment TEXT NOT NULL,createdAt INTEGER NOT NULL,updatedAt INTEGER,deletedAt INTEGER,FOREIGN KEY(userId) REFERENCES User(id),FOREIGN KEY(postId) REFERENCES Post(id))',
         );
       },
     );

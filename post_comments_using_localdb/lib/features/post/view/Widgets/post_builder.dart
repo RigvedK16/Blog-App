@@ -31,15 +31,7 @@ class _PostBuilderState extends State<PostBuilder> {
         if (context.mounted) {
           await userService.insertDummyUsers(widget.username);
           await service.insertDummyData();
-          final vm = context.read<PostViewModel>();
-          final fetchedUser = await context.read<UserViewModel>().getUser(
-            widget.userId,
-          );
-          if (fetchedUser != null) {
-            user = fetchedUser;
-          } else {
-            print('User not found');
-          }
+          final vm = Provider.of<PostViewModel>(context, listen: false);
           vm.fetch();
         }
       } catch (err) {

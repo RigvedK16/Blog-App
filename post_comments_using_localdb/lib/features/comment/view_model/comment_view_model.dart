@@ -1,0 +1,32 @@
+import 'package:flutter/material.dart';
+import 'package:post_comments_using_localdb/features/comment/model/comment_model.dart';
+import 'package:post_comments_using_localdb/features/comment/model/create_comment_model.dart';
+import 'package:post_comments_using_localdb/features/comment/service/local_database_service_comment.dart';
+
+class CommentViewModel extends ChangeNotifier {
+  LocalDatabaseServiceComment commentService = LocalDatabaseServiceComment();
+  final Map<int, List<CommentModel>> _comments = {};
+  get comments => _comments;
+
+  Future<void> fetch(int postId) async {
+    _comments[postId] = await commentService.readAll(postId);
+    notifyListeners();
+  }
+
+  Future<void> create({
+    required userId,
+    required postId,
+    required comment,
+  }) async {
+    final model = CreateCommentModel(
+      userId: userId,
+      postId: postId,
+      comment: comment,
+      createdAt: DateTime.now(),
+    );
+    final createdComment = await commentService.createComment(model);
+    _comments[postId]!.add(createdComment);
+    print('Created Comment : ${createdComment.comment}');
+    notifyListeners();
+  }
+}

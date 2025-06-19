@@ -15,8 +15,7 @@ class EditDeleteDropdown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final validateUser = context.read<UserViewModel>().validatedUser;
-    bool validate =
-        validateUser != null && user != null && validateUser.id == user!.id;
+    bool validate = validateUser != null && validateUser.id == post?.userId;
     if (validate) {
       return PopupMenuButton(
         itemBuilder: (context) {

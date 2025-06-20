@@ -27,7 +27,6 @@ class _PostListViewItemState extends State<PostListViewItem> {
           widget.post.userId,
         );
         if (fetchedUser != null) {
-          user = fetchedUser;
           setState(() {
             user = fetchedUser;
           });

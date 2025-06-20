@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:post_comments_using_localdb/features/User/model/user_model.dart';
 import 'package:post_comments_using_localdb/features/User/view_model/user_view_model.dart';
 import 'package:post_comments_using_localdb/features/comment/model/comment_model.dart';
+import 'package:post_comments_using_localdb/features/comment/view/Widgets/edit_delete_dropdown_comments.dart';
+import 'package:post_comments_using_localdb/features/post/model/post_model.dart';
 import 'package:provider/provider.dart';
 
 class CommentWidget extends StatefulWidget {
   final CommentModel comment;
-  const CommentWidget({super.key, required this.comment});
+  final PostModel post;
+  const CommentWidget({super.key, required this.comment, required this.post});
 
   @override
   State<CommentWidget> createState() => _CommentWidgetState();
@@ -37,10 +40,20 @@ class _CommentWidgetState extends State<CommentWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(
-            '@${validatedUser?.username}',
-            style: Theme.of(context).textTheme.labelLarge,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '@${validatedUser?.username}',
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+              EditDeleteDropdownComments(
+                post: widget.post,
+                comment: widget.comment,
+              ),
+            ],
           ),
+
           SizedBox(height: 10),
           Text(
             widget.comment.comment,

@@ -27,4 +27,13 @@ class LocalDatabaseServiceComment {
       deletedAt: model.deletedAt,
     );
   }
+
+  Future<void> updateComment(CommentModel updatedModel) async {
+    await db.update(
+      'Comment',
+      updatedModel.toUpdateDatabase(),
+      where: 'id = ?',
+      whereArgs: [updatedModel.id],
+    );
+  }
 }

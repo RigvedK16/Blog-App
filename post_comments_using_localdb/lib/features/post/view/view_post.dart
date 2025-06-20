@@ -100,7 +100,7 @@ class _ViewPostState extends State<ViewPost> {
                     itemCount: allComments.length,
                     itemBuilder: (BuildContext context, int index) {
                       CommentModel comment = allComments[index];
-                      return CommentWidget(comment: comment);
+                      return CommentWidget(comment: comment, post: widget.post);
                     },
                   );
                 },

@@ -14,9 +14,9 @@ class CommentViewModel extends ChangeNotifier {
   }
 
   Future<void> create({
-    required userId,
-    required postId,
-    required comment,
+    required int userId,
+    required int postId,
+    required String comment,
   }) async {
     final model = CreateCommentModel(
       userId: userId,
@@ -27,6 +27,24 @@ class CommentViewModel extends ChangeNotifier {
     final createdComment = await commentService.createComment(model);
     _comments[postId]!.add(createdComment);
     print('Created Comment : ${createdComment.comment}');
+    notifyListeners();
+  }
+
+  Future<void> update({
+    required CommentModel comment,
+    required String updatedComment,
+    required int postId,
+    required int userId,
+  }) async {
+    int postIndex = postId;
+    int userIndex = _comments[postIndex]!.indexOf(comment);
+    CommentModel updatedModel = comment.copyWith(
+      comment: updatedComment,
+      updatedAt: DateTime.now(),
+    );
+    print('Editing: ${updatedModel.comment}');
+    await commentService.updateComment(updatedModel);
+    _comments[postIndex]?[userIndex] = updatedModel;
     notifyListeners();
   }
 }

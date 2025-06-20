@@ -17,6 +17,17 @@ class CommentModel {
     this.deletedAt,
   });
 
+  CommentModel copyWith({required comment, required updatedAt}) {
+    return CommentModel(
+      id: id,
+      userId: userId,
+      postId: postId,
+      comment: comment ?? this.comment,
+      createdAt: createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
   factory CommentModel.fromDatabase(Map<String, dynamic> map) {
     return CommentModel(
       id: map['id'],
@@ -33,5 +44,9 @@ class CommentModel {
               ? DateTime.fromMillisecondsSinceEpoch(map['deletedAt'])
               : null,
     );
+  }
+
+  Map<String, dynamic> toUpdateDatabase() {
+    return {"comment": comment, "updatedAt": updatedAt?.millisecondsSinceEpoch};
   }
 }

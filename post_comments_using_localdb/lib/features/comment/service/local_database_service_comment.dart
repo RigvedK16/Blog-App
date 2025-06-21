@@ -9,7 +9,7 @@ class LocalDatabaseServiceComment {
   Future<List<CommentModel>> readAll(int postId) async {
     final res = await db.query(
       'Comment',
-      where: 'postId = ?',
+      where: 'postId = ? AND deletedAt IS NULL',
       whereArgs: [postId],
     );
     return res.map((map) => CommentModel.fromDatabase(map)).toList();
@@ -34,6 +34,15 @@ class LocalDatabaseServiceComment {
       updatedModel.toUpdateDatabase(),
       where: 'id = ?',
       whereArgs: [updatedModel.id],
+    );
+  }
+
+  Future<void> deleteComment(CommentModel deletedModel) async {
+    await db.update(
+      'Comment',
+      deletedModel.toDatabaseDelete(),
+      where: 'id = ?',
+      whereArgs: [deletedModel.id],
     );
   }
 }

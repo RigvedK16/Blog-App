@@ -47,4 +47,11 @@ class CommentViewModel extends ChangeNotifier {
     _comments[postIndex]?[userIndex] = updatedModel;
     notifyListeners();
   }
+
+  Future<void> delete(CommentModel comment) async {
+    int postId = comment.postId;
+    await commentService.deleteComment(comment);
+    _comments[postId]!.remove(comment);
+    notifyListeners();
+  }
 }

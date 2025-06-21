@@ -49,4 +49,8 @@ class CommentModel {
   Map<String, dynamic> toUpdateDatabase() {
     return {"comment": comment, "updatedAt": updatedAt?.millisecondsSinceEpoch};
   }
+
+  Map<String, dynamic> toDatabaseDelete() {
+    return {"deletedAt": DateTime.now().millisecondsSinceEpoch};
+  }
 }

@@ -16,9 +16,10 @@ class PostDialogHelper {
       builder: (context) => PostDeleteDialog(),
     );
     if (userApprovalToDelete == true) {
-      context.read<PostViewModel>().deletePost(post).whenComplete(() {
-        Navigator.of(context).pop();
-      });
+      context.read<PostViewModel>().deletePost(post);
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Post deleted...')));
     }
   }
 }
